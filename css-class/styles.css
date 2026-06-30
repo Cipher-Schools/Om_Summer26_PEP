@@ -1,0 +1,85 @@
+.container {
+    /* display: flex; */
+    /* flex-direction: row;
+    flex-wrap: wrap-reverse;
+    gap: 10px;
+    justify-content: space-between; */
+    /* display: grid; */
+    /* grid-template-columns: repeat(4, 1fr); */
+    /* grid-template-columns: 200px 200px 200px 1fr;
+    grid-template-rows: 200px 200px 200px; */
+    display: grid;
+    grid-auto-columns: 120px;
+    grid-auto-rows: 120px;
+    /* grid-template-columns: 200px 200px 300px 1fr; */
+    /* grid-template-columns: repeat(3, 1fr); */
+    /* grid-template-rows: 100px 100px 100px 100px; */
+    gap: 10px;
+    grid-template-areas: 
+    "box1 box5 box3"
+    "box1 box4 box3"
+    "box2 box4 box3";
+
+    .box {
+        color: white;
+        background-color: blue;
+        /* width: 180px;
+        height: 180px; */
+        /* flex: 1;
+        height: 60px; */
+        border: 1px solid gray;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+
+.card-container {
+    margin-top: 100px;
+    display: flex;
+    gap: 10px;
+
+    .card {
+        border: 1px solid gray;
+        padding: 5px;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+    }
+}
+
+
+
+
+
+h1 {
+    color: green;
+}
+
+#world {
+    color: blue;
+}
+
+.hello {
+    color: red;
+}
+.para {
+    font-size: 20px;
+    line-height: 1.8;
+    border: 1px solid black;
+}
+
+
+/* #box1 {
+    background-color: yellow;
+    width: 80px;
+    height: 80px;
+}
+
+#box2 {
+    background-color: purple;
+    width: 80px;
+    height: 80px;
+} */
