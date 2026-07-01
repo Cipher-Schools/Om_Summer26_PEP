@@ -3,6 +3,8 @@ const descInput = document.querySelector('#desc');
 const form = document.querySelector('form');
 const todos = document.querySelector('#todos');
 
+console.log('start');
+
 form.addEventListener('submit', (e) => {
 
     e.preventDefault();
@@ -48,4 +50,6 @@ form.addEventListener('submit', (e) => {
 
 
 })
+
+console.log('End');
 
