@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useState } from "react";
 
 function StudentForm() {
@@ -13,6 +14,13 @@ function StudentForm() {
     // const [showData, setShowData] = useState(false);
     const [studentsDetails, setStudentsDetails] = useState([]);
 
+    useEffect(() => {
+        const data = localStorage.getItem('studentsData');
+        if (data) {
+            setStudentsDetails(JSON.parse(data));
+        }
+    }, [])
+
     function students() {
         const newStudent = {
             name,
@@ -23,7 +31,10 @@ function StudentForm() {
             designation
         }
 
-        setStudentsDetails([...studentsDetails, newStudent]);
+        const allStudents = [...studentsDetails, newStudent];
+
+        setStudentsDetails(allStudents);
+        localStorage.setItem('studentsData', JSON.stringify(allStudents));
 
         setName('');
         setRegId('');
@@ -63,7 +74,7 @@ function StudentForm() {
             <input type="text" name="regdId" placeholder="Enter Registration Id" value={regId}
                 onChange={(e) => setRegId(e.target.value)}
             />
-            <input type="email" name="email" id="" placeholder="Email Id"  value={email}
+            <input type="email" name="email" id="" placeholder="Email Id"  value={email}z
                 onChange={e => setEmail(e.target.value)}
             />
             <input type="number" name="age" id="" placeholder="Age" value={age}
@@ -95,9 +106,9 @@ function StudentForm() {
             </div>
             )}    */}
             <h2>Student Data</h2>
-            {studentsDetails.map(student => {
+            {studentsDetails.map((student, index) => {
                 return (
-                    <div>
+                    <div id={index}>
                         <p>Name: {student.name}</p>
                         <p>Registration Id: {student.regId}</p>
                         <p>Email: {student.email}</p>
