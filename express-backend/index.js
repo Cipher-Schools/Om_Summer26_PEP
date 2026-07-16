@@ -1,5 +1,5 @@
 const express = require('express');
-const bodyParser = require('body-parser');
+// const bodyParser = require('body-parser');
 
 const students = [
     { id:1, name: 'Tom', age: 22, city: 'Delhi' },
@@ -12,8 +12,8 @@ const students = [
 
 const app = express();
 
-// app.use(express.json());
-app.use(bodyParser.json());
+app.use(express.json());
+// app.use(bodyParser.json());
 
 app.get('/', (req, res) => {
     res.send('response from express server');
