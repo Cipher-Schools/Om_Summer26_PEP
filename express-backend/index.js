@@ -1,5 +1,5 @@
 const express = require('express');
-// const bodyParser = require('body-parser');
+const { loggers } = require('./middleware/loggers');
 
 const students = [
     { id:1, name: 'Tom', age: 22, city: 'Delhi' },
@@ -13,11 +13,16 @@ const students = [
 const app = express();
 
 app.use(express.json());
-// app.use(bodyParser.json());
 
-app.get('/', (req, res) => {
+app.use(loggers);
+
+app.get('/',(req, res) => {
     res.send('response from express server');
 });
+
+app.post('/hello', (req, res) => {
+    res.send('Response for post request');
+})
 
 app.get('/students', (req, res) => {
     // res.send(students);
@@ -50,11 +55,67 @@ app.get('/search', (req, res) => {
 
 });
 
+
+
 app.post('/students', (req, res) => {
-    // const name = req.body.name;
     const body = req.body;
-    console.log(body);
-    res.send('Hello')
+
+    const newStudent = { id: students.length + 1, ...body }
+
+    students.push(newStudent);
+
+    res.json({
+        message: 'New user added',
+        data: newStudent
+    })
+})
+
+// app.use(loggers);
+
+app.put('/students/:id', (req, res) => {
+    const id = Number(req.params.id);
+    const data = req.body;
+
+    let student = students.find(s => s.id === id);
+
+    if (!student) {
+        res.json({ message: 'Student not found'});
+        return;
+    }
+
+    student.name = data.name;
+    student.age = data.age;
+    student.city = data.city;
+
+    res.json({
+        message: 'Student updated successfully',
+        data: student
+    })
+
+})
+
+app.patch('/students/:id', (req, res) => {
+    const id = Number(req.params.id);
+    const data = req.body;
+
+    let student = students.find(s => s.id === id);
+
+    if (!student) {
+        res.json({ message: 'Student not found'});
+        return;
+    }
+
+    // student.name = data.name ? data.name : student.name;
+    // student.age = data.age ? data.age : student.age;
+    // student.city = data.city ? data.city : student.city;
+
+    Object.assign(student, data);
+
+    res.json({
+        message: 'Studnet data updated',
+        data: student
+    });
+    return;  
 })
 
 
