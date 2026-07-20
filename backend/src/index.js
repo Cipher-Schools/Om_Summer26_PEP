@@ -2,6 +2,8 @@
 import express from 'express';
 import fs from 'fs/promises';
 import 'dotenv/config';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 
 const port = process.env.PORT;
 
@@ -18,13 +20,13 @@ app.post('/signup', async (req, res) => {
     try {
         const { firstName, lastName, email, password }= req.body;
 
-        const userList = JSON.parse(await fs.readFile('data/user.json', 'utf-8'));
-        // console.log('UserData, ', userList);
-
         if (!firstName || !lastName || !email || !password) {
             res.json({ message: 'All informations are required for signup!'});
             return;
         }
+
+        const userList = JSON.parse(await fs.readFile('data/user.json', 'utf-8'));
+        // console.log('UserData, ', userList);
 
         const existingUser = userList.find(u => u.email === email);
 
@@ -33,22 +35,28 @@ app.post('/signup', async (req, res) => {
             return;
         }
 
+        const hashedPassword = await bcrypt.hash(password, 10);
+
         const newUser = {
             "id": userList.length + 1,
             firstName,
             lastName,
             email,
-            password,
+            password: hashedPassword,
             role: "student"
         }
+
+       const { password: _, ...userData } = newUser;
 
         userList.push(newUser);
 
         await fs.writeFile('data/user.json', JSON.stringify(userList, null, 2));
 
+        
+
         res.json({
             message: "New user created successfully",
-            data: newUser
+            data: userData
         });
         return;
 
@@ -56,6 +64,55 @@ app.post('/signup', async (req, res) => {
             console.log(err);
         }
 
+});
+
+
+app.post('/login', async (req, res) => {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+        res.json({ message: 'Email and Password both are required for Login'});
+        return;
+    }
+
+    const users = JSON.parse(await fs.readFile('data/user.json', 'utf-8'));
+
+    const user = users.find(u => u.email === email);
+
+    if (!user) {
+        res.json({ message: "User not found" });
+        return;
+    }
+
+    const isMatched = await bcrypt.compare(password, user.password);
+
+    if (!isMatched) {
+        res.json({ message: "Invalid credentials" });
+        return;
+    }
+
+    const token = jwt.sign(
+        {
+            id: user.id,
+            email: user.email,
+            role: user.role
+        },
+        process.env.JWT_SECRET,
+        {
+            expiresIn: "7d"
+        }
+    )
+
+    res.json({
+        message: 'User logged in successfully',
+        token
+    });
+    return;
+});
+
+
+app.get('/courses', (req, res) => {
+    // complete this
 })
 
 
