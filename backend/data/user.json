@@ -5,7 +5,8 @@
     "lastName": "Tendulkar",
     "email": "sachin@gmail.com",
     "password": "$2b$10$T.TNdZIhuD63IWpTFOlI1.FKQwtnzYi5p5a46ZyrNcabrWaFngwnS",
-    "role": "student"
+    "role": "student",
+    "courses": [1, 2]
   },
   {
     "id": 2,
@@ -13,6 +14,7 @@
     "lastName": "Kohli",
     "email": "virat@gmail.com",
     "password": "$2b$10$pFZCgw6vgIJhVVUkkVJMPedgwij8VtcwYiZ1TnW51RfhpMD7PIS2m",
-    "role": "student"
+    "role": "student",
+    "courses": []
   }
 ]
