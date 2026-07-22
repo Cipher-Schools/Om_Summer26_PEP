@@ -1,5 +1,6 @@
-import fs from 'fs/promises';
+// import fs from 'fs/promises';
 import bcrypt from 'bcrypt';
+import User from '../../models/User.js';
 
 export const signup = async (req, res) => {
     // const body = req.body;
@@ -11,39 +12,36 @@ export const signup = async (req, res) => {
             return;
         }
 
-        const userList = JSON.parse(await fs.readFile('data/user.json', 'utf-8'));
+        // const userList = JSON.parse(await fs.readFile('data/user.json', 'utf-8'));
         // console.log('UserData, ', userList);
 
-        const existingUser = userList.find(u => u.email === email);
+        // const existingUser = userList.find(u => u.email === email);
+        const existingUser = await User.findOne({ email });
 
         if (existingUser) {
             res.json({ message: 'User with this email already exist.'});
             return;
         }
 
-        const hashedPassword = await bcrypt.hash(password, 10);
+        const hashedPassword = await bcrypt.hash(password, 10); 
 
-        const newUser = {
-            "id": userList.length + 1,
+        await User.create({
             firstName,
             lastName,
             email,
             password: hashedPassword,
-            role: "student",
-            courses: []
-        }
+            role: "student"
+        })
 
-       const { password: _, ...userData } = newUser;
 
-        userList.push(newUser);
+    //    const { password: _, ...userData } = newUser;
 
-        await fs.writeFile('data/user.json', JSON.stringify(userList, null, 2));
-
-        
+        // userList.push(newUser);
+        // await fs.writeFile('data/user.json', JSON.stringify(userList, null, 2));
 
         res.json({
             message: "New user created successfully",
-            data: userData
+            // data: userData
         });
         return;
 
