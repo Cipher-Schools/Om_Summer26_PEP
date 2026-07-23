@@ -26,12 +26,22 @@ const userSchema = new mongoose.Schema({
         enum: ['student', 'instructor', 'admin'],
         default: 'student'
     },
-    courses: [
+    enrolledCourses: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "course"
+        }
+    ],
+    createdCourses: [
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: "course"
         }
     ]
-})
+},
+{
+    timestamps: true
+}
+)
 
 export default mongoose.model("User", userSchema);

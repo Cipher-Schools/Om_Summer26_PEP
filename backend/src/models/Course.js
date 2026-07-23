@@ -5,8 +5,8 @@ const courseSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    instructor: {
-        type: String,
+    instructorId: {
+        type: mongoose.Schema.Types.ObjectId,
         required: true
     },
     price: {
