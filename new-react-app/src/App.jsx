@@ -5,6 +5,7 @@ import Dashboard from './pages/dashboard/Dashboard';
 import Signup from './pages/signup/Signup';
 import Navbar from './components/navbar/Navbar';
 import Footer from './components/footer/Footer';
+import { Home } from './pages/Home/home';
 
 function App() {
 
@@ -12,12 +13,13 @@ function App() {
     <>
     <Navbar />
     <Routes>
-      <Route path='/' element={ <Dashboard />} />
+      <Route path='/' element={ <Home />} />
+      <Route path='/dashboard' element={ <Dashboard />} />
       <Route path='/login' element={<Login />} />
       <Route path='/signup' element={ <Signup />} />
 
     </Routes>
-    <Footer />
+    {/* <Footer /> */}
     </>
   )
 }
